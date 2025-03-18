@@ -36,8 +36,35 @@ try:
 except:
     print(f"전체 결과가 검색되어, 추가 검색을 할 수 없습니다.")
 
-# 3. 내가 찾으려는 업체의 ID를 기반으로 찾기
+# 3. 업체의 ID를 기반으로 찾기
+time.sleep(2)
+company_id = "1073540490"
+company_id_selector = f"a[href*='/{company_id}?entry=pll']"
+company_elements = driver.find_elements(By.CSS_SELECTOR, company_id_selector)
 
+company_element = random.choice(company_elements)
+for _ in range(5):
+    target_company_element = company_element.find_element(By.XPATH, './..')
+    tagname = target_company_element.get_attribute("tagName")
+    if tagname == "LI":
+        print("li 태그를 잘 찾았습니다.")
+        break
+    company_element = target_company_element
+
+all_list_selector = "#_list_scroll_container > div > div > div.place_business_list_wrapper > ul > li"
+all_list_element = driver.find_elements(By.CSS_SELECTOR, all_list_selector)
+rank = 1
+for each_element in all_list_element:
+    try:
+        # 광고 element는 순위에서 제외
+        each_element.find_element(By.CSS_SELECTOR, "a.gU6bV")
+        continue
+    except:
+        pass
+    if each_element == target_company_element:
+        break
+    rank += 1
+print(f"{search_query} // 현재 {rank} 등에 노출되고 있습니다")
 
 # 3-2. 없으면, 인피니티 스크롤 5번정도 실행
 
