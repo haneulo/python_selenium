@@ -1,7 +1,8 @@
 # 네이버 플레이스 상위 노출 순위 추적 프로그램
-import time
+import time, random
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver import ActionChains
 import chromedriver_autoinstaller
 
 chromedriver_autoinstaller.install()
@@ -38,9 +39,22 @@ except:
 
 # 3. 업체의 ID를 기반으로 찾기
 time.sleep(2)
-company_id = "1073540490"
+company_id = "1675942813"
 company_id_selector = f"a[href*='/{company_id}?entry=pll']"
-company_elements = driver.find_elements(By.CSS_SELECTOR, company_id_selector)
+
+# 3-2. 없으면, 인피니티 스크롤 5번정도 실행
+for _ in range(5):
+    company_elements = driver.find_elements(By.CSS_SELECTOR, company_id_selector)
+
+    if len(company_elements) < 1:
+        print("순위권에 업체가 없어서, 스크롤을 합니다")
+        scrollY = 20000
+        # driver.execute_script("window.scrollBy(0,20000);")
+        ActionChains(driver).scroll_by_amount(200,scrollY).perform()
+        time.sleep(3)
+if len(company_elements) < 1:
+    print("쿼리 검색결과로는 순위가 잡히지않는 업체입니다.")
+    # 해당 키워드 작업 종료
 
 company_element = random.choice(company_elements)
 for _ in range(5):
@@ -66,7 +80,7 @@ for each_element in all_list_element:
     rank += 1
 print(f"{search_query} // 현재 {rank} 등에 노출되고 있습니다")
 
-# 3-2. 없으면, 인피니티 스크롤 5번정도 실행
+
 
 # 4. 여러 키워드, 여러 업체의 순위를 찾는 프로그램으로 변경
 
