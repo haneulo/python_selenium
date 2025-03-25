@@ -24,18 +24,20 @@ Latest_element.click()
 time.sleep(1)
 
 # 스크롤 동작(스크롤 1번당 10개의 뉴스 추가)
-for _ in range(1):
+for _ in range(2):
     driver.execute_script("window.scrollBy(0,10000);")
     time.sleep(1)
 
 req = driver.page_source
 soup = BeautifulSoup(req, 'html.parser')
 
-articles = soup.select('.news_tit')
+# 뉴스 타이틀, url, 언론사 출력
+articles = soup.select('.news_wrap')
 
-# 뉴스 타이틀 출력
 for article in articles:
-    title = article.text
-    print(title)
+    title = article.select_one('.news_tit').text
+    url = article.select_one('.news_tit')['href']
+    news = article.select_one('.info_group > a').text.split(' ')[0].replace('언론사','')
+    print(title, url, news)
 
 input()
