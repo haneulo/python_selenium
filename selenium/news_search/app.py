@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
+from openpyxl import Workbook
 
 chromedriver_autoinstaller.install()
 
@@ -37,7 +38,15 @@ articles = soup.select('.news_wrap')
 for article in articles:
     title = article.select_one('.news_tit').text
     url = article.select_one('.news_tit')['href']
-    news = article.select_one('.info_group > a').text.split(' ')[0].replace('언론사','')
-    print(title, url, news)
+    company = article.select_one('.info_group > a').text.split(' ')[0].replace('언론사','')
+    print(title, url, company)
+
+# 엑셀 파일 만들기
+wb = Workbook()
+ws = wb.active
+ws.title = "news_list"
+ws.append(["제목", "링크", "언론사"])
+
+wb.save("news.xlsx")
 
 input()
