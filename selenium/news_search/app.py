@@ -1,4 +1,4 @@
-# 네이버 뉴스 기사 크롤링
+# 네이버 뉴스 크롤링 후 엑셀저장 프로그램
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
