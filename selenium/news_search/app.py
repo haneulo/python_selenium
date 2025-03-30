@@ -3,13 +3,21 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 
 chromedriver_autoinstaller.install()
 
-driver = webdriver.Chrome()
+# 브라우저 꺼짐 방지
+chrome_options = Options()
+chrome_options.add_experimental_option("detach", True)
+
+# 불필요한 에러메시지 노출 방지
+chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
+
+driver = webdriver.Chrome(options=chrome_options)
 
 search_query = "속보"
 search_link = f"https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={search_query}"
@@ -68,4 +76,3 @@ for row_range in ws['A1':'C1']:
 wb.save("news.xlsx")
 print("검색결과 저장이 완료되었습니다.")
 
-driver.quit()
