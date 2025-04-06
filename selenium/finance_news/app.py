@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
+import pandas as pd
 
 # 브라우저 꺼짐 방지
 chrome_options = Options()
@@ -14,6 +15,7 @@ chrome_options.add_experimental_option("excludeSwitches", ["enable-logging"])
 
 driver = webdriver.Chrome(options=chrome_options)
 
+data = []
 for i in range(1, 1000):
     dt = "2025-04-05"
     search_link = f"https://finance.naver.com/news/mainnews.naver?date={dt}&page={i}"
@@ -31,8 +33,16 @@ for i in range(1, 1000):
         press = article.select_one(".press").text.strip()
         date = article.select_one(".wdate").text
         print(title, url, content, press, date)
+        data.append([title, url, content, press, date])
 
     # 마지막 페이지 체크
     if soup.select_one(".pgRR") == None:
         break
+
+# 데이터 프레임 생성
+df = pd.DataFrame(data, columns=['제목', '링크', '내용', '언론사', '날짜'])
+df
+
+# 엑셀 저장
+df.to_excel("naver_finance.xlsx")
 
