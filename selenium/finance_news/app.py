@@ -17,8 +17,8 @@ driver = webdriver.Chrome(options=chrome_options)
 
 data = []
 for i in range(1, 1000):
-    dt = "2025-04-05"
-    search_link = f"https://finance.naver.com/news/mainnews.naver?date={dt}&page={i}"
+    day = "2025-04-07"
+    search_link = f"https://finance.naver.com/news/mainnews.naver?date={day}&page={i}"
 
     driver.get(search_link)
 
