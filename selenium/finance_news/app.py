@@ -1,4 +1,4 @@
-# 네이버 증권 뉴스 크롤링링
+# 네이버 증권 뉴스 크롤링
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
