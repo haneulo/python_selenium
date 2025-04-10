@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import chromedriver_autoinstaller
 import pandas as pd
+from datetime import datetime
 
 # 브라우저 꺼짐 방지
 chrome_options = Options()
@@ -17,7 +18,9 @@ driver = webdriver.Chrome(options=chrome_options)
 
 data = []
 for i in range(1, 1000):
-    day = "2025-04-07"
+    # day = "2025-04-09"
+    # 오늘 날짜로 자동 검색
+    day = datetime.now().date()
     search_link = f"https://finance.naver.com/news/mainnews.naver?date={day}&page={i}"
 
     driver.get(search_link)
